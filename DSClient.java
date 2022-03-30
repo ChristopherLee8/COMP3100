@@ -30,7 +30,7 @@ public class TCPCLient {
                 dout.close();
                 s.close();
             }
-            catch(Exceptione){System.out.println(e);}
+            catch(Exception e){System.out.println(e);}
             try {TimeUnit.SECONDS.sleep(1);} catch(InterruptedException e){system.out.println(e);}
         }
     }
