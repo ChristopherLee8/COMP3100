@@ -2,7 +2,7 @@ import java.net.*;
 import java.io.*;
 import java.util.concurrent.*;
 
-public class DSCLient {
+public class DSClient {
     public static void main(String[] args) {
         while(true) {
             try{
