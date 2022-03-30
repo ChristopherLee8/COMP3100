@@ -8,12 +8,12 @@ public class DSCLient {
             try{
                 InetAddress aHost = InetAddress.getByName(args[0]);
                 int aPort = Integer.parseInt(args[1]);
-                Socket s = new Socket(aHost,Aport);
+                Socket s = new Socket(aHost,aPort);
                 DataOutputStream dout = new DataOutputStream(s.getOutputStream());
                 BufferedReader din = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
                 System.out.println("Target IP: " + s.getInetAddress() + " Target Port: "+ s.getPort());
-                System.out.println("Local IP: " + s.getLocalAddres() + " Local Port: " + s.getLocalPort());
+                System.out.println("Local IP: " + s.getLocalAddress() + " Local Port: " + s.getLocalPort());
                 
                 dout.write(("HELO\n").getBytes());
                 System.out.println("SENT: HELO");
@@ -31,7 +31,7 @@ public class DSCLient {
                 s.close();
             }
             catch(Exception e){System.out.println(e);}
-            try {TimeUnit.SECONDS.sleep(1);} catch(InterruptedException e){system.out.println(e);}
+            try {TimeUnit.SECONDS.sleep(1);} catch(InterruptedException e){System.out.println(e);}
         }
     }
 }
