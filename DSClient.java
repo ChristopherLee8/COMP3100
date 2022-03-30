@@ -18,16 +18,17 @@ public class DSClient {
                 dout.flush();
                 dout.write(("HELO\n").getBytes());
                 System.out.println("SENT: HELO");
-                
                 dout.flush();
+                
                 String str = (String)din.readLine();
                 System.out.println("RCVD: "+str);
                 dout.write(("BYE\n").getBytes());
                 System.out.println("SENT: BYE");
-
                 dout.flush();
+
                 str = (String)din.readLine();
                 System.out.println("RCVD: "+str);
+                dout.flush();
 
                 din.close();
                 dout.close();
