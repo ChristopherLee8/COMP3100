@@ -2,7 +2,7 @@ import java.net.*;
 import java.io.*;
 import java.util.concurrent.*;
 
-private class TCPCLient {
+public class DSCLient {
     public static void main(String[] args) {
         while(true) {
             try{
