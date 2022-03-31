@@ -15,33 +15,13 @@ public class DSClient {
             boolean found = false;
             String currentMsg = "";
             CSH(s); //Client/Server Handshake
-
-            DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-            BufferedReader din = new BufferedReader(new InputStreamReader(s.getInputStream()));
-
-            System.out.println("Target IP: " + s.getInetAddress() + " Target Port: "+ s.getPort());
-            System.out.println("Local IP: " + s.getLocalAddress() + " Local Port: " + s.getLocalPort());
             
-            dout.flush();
-            dout.write(("HELO\n").getBytes());
-            System.out.println("SENT: HELO");
-            dout.flush();
-            
-            String str = (String)din.readLine();
-            System.out.println("RCVD: "+str);
-            dout.write(("BYE\n").getBytes());
-            System.out.println("SENT: BYE");
-            dout.flush();
+            sendMsg(s, "HELO\n"); //Sends HELO to server
+            currentMsg = readMsg(s); //Displays received message
+            sendMsg(s, "BYE\n"); //Sends BYE to server
+            currentMsg = readMsg(s); //Displays received message
 
-            str = (String)din.readLine();
-            System.out.println("RCVD: "+str);
-            dout.flush();
-
-            din.close();
-            dout.close();
             s.close();
-            
-
         }
         catch (Exception e) {
             System.out.println(e);
@@ -56,6 +36,37 @@ public class DSClient {
         sendMsg(s, "AUTH Computer\n"); //Authenticate with Username "computer"
         currentMsg = readMsg(s);
         System.out.println("RCVD: " + currentMsg); //Display response from Server
+    }
+
+
+    //This function reads the incoming message and outputs it at the end
+    public static synchronized String readMsg(Socket s) {
+        String currentMsg = "FAIL";
+        try {
+            DataInputStream din = new DataInputStream(s.getInputStream());
+            byte[] byteArray = new byte[din.available()]; //clears byteArray
+            byteArray = new byte[0];
+            while (byteArray.length == 0) {
+                byteArray = new byte[din.available()];
+                din.read(byteArray);
+                currentMsg = new String(byteArray, StandardCharsets.UTF_8);
+            }
+        } 
+        catch (IOException e) {e.printStackTrace();}
+        System.out.println("RCVD: " + currentMsg);
+        return currentMsg; //returns the received message
+    }
+
+    //the function below is used to send a message to the server
+    public static synchronized void sendMsg(Socket s, String currentMsg) {
+        try {
+            DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+            byte[] byteArray = currentMsg.getBytes();
+            dout.write(byteArray);
+            System.out.println("SENT: " + currentMsg);
+            dout.flush(); //after a message is sent this clears the field ready for a new message
+        } 
+        catch (IOException e) {e.printStackTrace();}
     }
 
 }
