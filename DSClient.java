@@ -14,7 +14,7 @@ public class DSClient {
             String[] ls = {""}; //Largest Server
             boolean found = false;
             String currentMsg = "";
-            
+            CSH(s); //Client/Server Handshake
 
             DataOutputStream dout = new DataOutputStream(s.getOutputStream());
             BufferedReader din = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -47,4 +47,15 @@ public class DSClient {
             System.out.println(e);
         }
     }
+
+    public static void CSH(Socket s) {
+        String currentMsg = "";
+        sendMsg(s, "HELO\n"); //Initiate with contact with Server
+        currentMsg = readMsg(s); //Display Response from Server
+        System.out.println("RCVD: " + currentMsg);
+        sendMsg(s, "AUTH Computer\n"); //Authenticate with Username "computer"
+        currentMsg = readMsg(s);
+        System.out.println("RCVD: " + currentMsg); //Display response from Server
+    }
+
 }
